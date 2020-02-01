@@ -24,10 +24,8 @@ listaarchivos.py [carpeta]
 
 Refactoriza el código para hacer uso del módulo Click
 
-Agregar la opción --csv al script para que la lista de archivos se imprima en
-la salida estándar en formato CSV usando print y format.
-
-Nota: No se vale usar el módulo CSV
+Agregar la opción --arch NOMBRE para guardar la lista de archivos en el archivo
+NOMBRE en formato CSV.
 """
 
 import click
@@ -63,6 +61,14 @@ def obtener_archivos(ruta="."):
 
     return lista_archivos
 
+def guarda_archivos_csv(lista_archivos, nom_arch):
+    """
+    Guarda la lista de archivos en nom_arch en formato csv.
+    """
+    da = open(nom_arch, "w")
+    for arch in lista_archivos:
+        da.write("{nombre},{ext},{peso},{fecha}\n".format(**arch))
+    da.close()
 
 # Vista: Imprimir la lista de archivos
 def imprime_archivos(lista_archivos):
@@ -73,20 +79,12 @@ def imprime_archivos(lista_archivos):
         # **arch->(nombre="hola.py"),ext=".py",fecha="xx",peso=1234) 
     print("-"*40)
 
-def imprime_archivos_csv(lista_archivos):
-    """
-    Imprime en la salida estándar la lista de archivos en formato csv
-    """
-    # nombre,ext,peso,fecha
-    for arch in lista_archivos:
-        print("{nombre},{ext},{peso},{fecha}".format(**arch))
-
 
 # Controlador: lsn()
 @click.command()
-@click.option("--csv", is_flag=True, help="Imprime en formato csv")
+@click.option("--arch", default="", help="Guarda la lista en NOMBRE en formato CSV")
 @click.argument("ruta", default=".")
-def lsn(csv, ruta):
+def lsn(arch, ruta):
     """
     Imprime la lista de archivo en la salida estándar de la carpeta
     proporcionada por el usuario.
@@ -96,11 +94,11 @@ def lsn(csv, ruta):
     """
     lista = obtener_archivos(ruta)
     lista_ordenada = sorted(lista, key=lambda d: d["nombre"])
-    # if csv == False:
-    if not csv:
+
+    if arch == "":
         imprime_archivos(lista_ordenada)
     else:
-        imprime_archivos_csv(lista_ordenada)
+        guarda_archivos_csv(lista_ordenada, arch)
 
 # Es para definri si el script es un script principal o un módulo
 if __name__ == "__main__":

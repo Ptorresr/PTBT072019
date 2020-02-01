@@ -24,13 +24,51 @@ listaarchivos.py [carpeta]
 
 Refactoriza el código para hacer uso del módulo Click
 
-Agregar la opción --csv al script para que la lista de archivos se imprima en
-la salida estándar en formato CSV usando print y format.
+Agregar la opción --arch NOMBRE para guardar la lista de archivos en el archivo
+NOMBRE en formato CSV.
 
-Nota: No se vale usar el módulo CSV
+Refactoriza el script para que haga uso del módulo CSV
+
+RETO: Agregar la opción --json NOMBRE para que se guarde la lista de archivos en el
+archivo NOMBRE en formato JSON (se sigiere usar la extensión .json). Si la opción no es proporcionada la lista de archivos se imprime de la forma abitual.
+
+Sugerencia:
+   Hacer uso del módulo json y en particular de las funciones json.dumps() o
+   json.dump().
+   La documentación del módulo json se puede obtener vía ipython o directamente en la
+   url https://docs.python.org/3.7/library/json.html
+
+Ejemplo de ejecución:
+
+$ python la.py --json lista.json
+$
+
+Ejemplo de resultado:
+
+$ head -n 15 lista.json
+[
+    {
+        "nombre": "./.la.py.swp",
+        "ext": ".swp",
+        "fecha": "2020-02-01T17:11:02.760067",
+        "peso": 16384
+    },
+    {
+        "nombre": "./.listaarchivos.py.swp",
+        "ext": ".swp",
+        "fecha": "2020-02-01T16:07:51.702087",
+        "peso": 16384
+    },
+    {
+        "nombre": "./la.json",
+    ...
+]
+
+Nota: El comando head -n 15 sólo muestra las primeras 15 líneas del archivo de salida.
 """
 
 import click
+import csv
 import datetime
 import os
 import sys
@@ -63,6 +101,16 @@ def obtener_archivos(ruta="."):
 
     return lista_archivos
 
+def guarda_archivos_csv(lista_archivos, nom_arch):
+    """
+    Guarda la lista de archivos en nom_arch en formato csv.
+    """
+    da = open(nom_arch, "w")
+    csv_writer = csv.writer(da)
+    for arch in lista_archivos:
+        fila = [arch["nombre"], arch["ext"], arch["peso"], arch["fecha"]]
+        csv_writer.writerow(fila)
+    da.close()
 
 # Vista: Imprimir la lista de archivos
 def imprime_archivos(lista_archivos):
@@ -73,20 +121,12 @@ def imprime_archivos(lista_archivos):
         # **arch->(nombre="hola.py"),ext=".py",fecha="xx",peso=1234) 
     print("-"*40)
 
-def imprime_archivos_csv(lista_archivos):
-    """
-    Imprime en la salida estándar la lista de archivos en formato csv
-    """
-    # nombre,ext,peso,fecha
-    for arch in lista_archivos:
-        print("{nombre},{ext},{peso},{fecha}".format(**arch))
-
 
 # Controlador: lsn()
 @click.command()
-@click.option("--csv", is_flag=True, help="Imprime en formato csv")
+@click.option("--arch", default="", help="Guarda la lista en NOMBRE en formato CSV")
 @click.argument("ruta", default=".")
-def lsn(csv, ruta):
+def lsn(arch, ruta):
     """
     Imprime la lista de archivo en la salida estándar de la carpeta
     proporcionada por el usuario.
@@ -96,11 +136,11 @@ def lsn(csv, ruta):
     """
     lista = obtener_archivos(ruta)
     lista_ordenada = sorted(lista, key=lambda d: d["nombre"])
-    # if csv == False:
-    if not csv:
+
+    if arch == "":
         imprime_archivos(lista_ordenada)
     else:
-        imprime_archivos_csv(lista_ordenada)
+        guarda_archivos_csv(lista_ordenada, arch)
 
 # Es para definri si el script es un script principal o un módulo
 if __name__ == "__main__":

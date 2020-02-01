@@ -1,0 +1,22 @@
+
+Este es el contenido del archivo
+---
+Línea 1
+Línea 2
+Línea 3
+---
+
+Este es el contenido del archivo
+---
+Línea 1
+Línea 2
+Línea 3
+---
+
+Este es el contenido del archivo
+---
+Línea 1
+Línea 2
+Línea 3
+---
+Última línea
