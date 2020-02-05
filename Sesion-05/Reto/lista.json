@@ -1,26 +1,26 @@
 [
     {
-        "nombre": "./.la.py.swp",
-        "ext": ".swp",
-        "fecha": "2020-02-01T17:11:02.760067",
-        "peso": 16384
-    },
-    {
-        "nombre": "./.listaarchivos.py.swp",
-        "ext": ".swp",
-        "fecha": "2020-02-01T16:07:51.702087",
-        "peso": 16384
-    },
-    {
-        "nombre": "./la.json",
-        "ext": ".json",
-        "fecha": "2020-02-01T17:11:01.488095",
-        "peso": 556
-    },
-    {
         "nombre": "./la.py",
         "ext": ".py",
-        "fecha": "2020-02-01T17:10:58.744154",
+        "fecha": "2020-02-04T19:41:15.950904",
         "peso": 3652
+    },
+    {
+        "nombre": "./lista.csv",
+        "ext": ".csv",
+        "fecha": "2020-02-04T19:42:44.166561",
+        "peso": 152
+    },
+    {
+        "nombre": "./lista.json",
+        "ext": ".json",
+        "fecha": "2020-02-01T17:11:30.851459",
+        "peso": 558
+    },
+    {
+        "nombre": "./listaarchivos.py",
+        "ext": ".py",
+        "fecha": "2020-02-01T17:15:49.425536",
+        "peso": 4259
     }
 ]
