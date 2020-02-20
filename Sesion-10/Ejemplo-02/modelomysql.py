@@ -23,7 +23,7 @@ def conecta_bd():
     de error.
     """
     try:
-        conn = connect(**BD)
+        conn = connect(**BD)  # host="localhost", database="Biblioteca", ...
     except Error as err:
         print(err)
         return None
