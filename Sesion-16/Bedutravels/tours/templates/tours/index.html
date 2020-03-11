@@ -15,8 +15,13 @@
           <strong>BEDUTRAVELS</strong>
         </a>
         <div>
-          <a href="">LogIn</a>
+	  {% if user %}
+	  <a href="/perfiles">{{ user.username }}</a>
+          <a href="/logout">Salir</a>
+	  {% else %}
+          <a href="/login">Entrar</a>
           <a href="">SignIn</a>
+	  {% endif %}
         </div>
     </nav>
 
